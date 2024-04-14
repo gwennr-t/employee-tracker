@@ -7,18 +7,6 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const db = mysql.createConnection(
-    {
-        host: 'localhost',
-        // MySQL username,
-        user: 'root',
-        // Add MySQL password here
-        password: 'insert password here',
-        database: 'company_db'
-    },
-    console.log('Connected to the company_db database.')
-);
-
 // read all departments
 app.get('/api/department', (req, res) => {
   const sql = `SELECT name AS title FROM department`;
