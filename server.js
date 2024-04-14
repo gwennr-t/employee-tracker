@@ -1,3 +1,4 @@
+const inquirer = require('inquirer');
 const express = require('express');
 const mysql = require('mysql2');
 
@@ -21,129 +22,87 @@ const db = mysql.createConnection(
   console.log(`Connected to the company_db database.`)
 );
 
-// read all departments
-app.get('/api/department', (req, res) => {
-  const sql = `SELECT name AS title FROM department`;
+function userPrompt() {
+  inquirer
+  .prompt([
+    {
+      type: "list",
+        name: "choices",
+        message: "What would you like to do?",
+        choices: [
+          "View All Employees",
+          "Add Employee",
+          "Update Employee Role",
+          "View All Roles",
+          "Add Role",
+          "View All Departments",
+          "Add Department",
+          "Quit",
+        ],
+    }
+  ])
+  .then(function(result) {
+    console.log("Your choice:" = result.choices);
+
+    switch(result.choices) {
+      case "View All Employees":
+        viewEmployees();
+        break;
+      case "Add Employee":
+        addEmployee();
+        break;
+      case "Update Employee Role":
+        updateEmployee();
+        break;
+      case "View all Roles":
+        viewRoles();
+        break;
+      case "Add Role":
+        addRole();
+        break;
+      case "View all Departments":
+        viewDepartments();
+        break;
+      case "Add Department":
+        addDepartment();
+        break;
+      default:
+        quit();
+    }
+  });
+}
+
+function viewEmployees() {
   
-  db.query(sql, (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-       return;
-    }
-    res.json({
-      message: 'success',
-      data: rows
-    });
-  });
-});
+}
 
-// read all roles
-app.get('/api/role', (req, res) => {
-  const sql = `SELECT title, salary, department_id AS title FROM role`;
+function addEmployee() {
   
-  db.query(sql, (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-       return;
-    }
-    res.json({
-      message: 'success',
-      data: rows
-    });
-  });
-});
+}
 
-// read all employees
-app.get('/api/employee', (req, res) => {
-  const sql = `SELECT first_name, last_name, role_id, manager_id AS title FROM employee`;
+function updateEmployee() {
   
-  db.query(sql, (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-       return;
-    }
-    res.json({
-      message: 'success',
-      data: rows
-    });
-  });
-});
+}
 
-// create a department
-app.post('/api/new-department', ({ body }, res) => {
-  const sql = `INSERT INTO department (name)
-    VALUES (?)`;
-  const params = [body.name];
+function viewRoles() {
   
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: 'Success!',
-      data: body
-    });
-  });
-});
+}
 
-// create a role
-app.post('/api/new-role', ({ body }, res) => {
-  const sql = `INSERT INTO role (title, salary, department_id)
-    VALUES (?)`;
-  const params = [body.title.salary.department_id.manager_id];
+function addRole() {
   
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: 'Success!',
-      data: body
-    });
-  });
-});
+}
 
-// create an employee
-app.post('/api/new-employee', ({ body }, res) => {
-  const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-    VALUES (?)`;
-  const params = [body.first_name.last_name.role_id.manager_id];
+function viewDepartments() {
   
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: 'Success!',
-      data: body
-    });
-  });
-});
+}
 
-// update an employee role
-app.put('api/employee/:id', (req, res) => {
-  const sql = `UPDATE employee SET employee = ? WHERE id = ?`;
-  const params = [req.body.employee, req.params.id];
+function addDepartment() {
+  
+}
 
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.status(400).json({error:err.message});
-    } else if (!result.affectedRows) {
-      res.json({
-        message: 'Employee not found'
-      });
-    } else {
-      res.json({
-        message: 'Success!',
-        data: req.body,
-        changes: result.affectedRows
-      });
-    }
-  });
-});
+function quit() {
+  
+}
 
 app.use((req, res) => {
   res.status(404).end();
