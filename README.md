@@ -13,4 +13,3 @@ The following resources were specifically referenced and used:
 - [MySQL2](https://www.npmjs.com/package/mysql2)
 - [Express.js](https://www.npmjs.com/package/express)
 - [Inquirer.js](https://www.npmjs.com/package/inquirer/v/8.2.4)
-- [dotenv](https://www.npmjs.com/package/dotenv)
